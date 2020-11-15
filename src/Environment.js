@@ -3,11 +3,16 @@ import * as THREE from 'three'
 import { useThree, useLoader } from 'react-three-fiber'
 import { HDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader'
 
+
 export default function Environment({ background = false }) {
   const { gl, scene } = useThree()
-  const [cubeMap] = useLoader(HDRCubeTextureLoader, [['px.hdr', 'nx.hdr', 'py.hdr', 'ny.hdr', 'pz.hdr', 'nz.hdr']], loader => {
-    loader.setDataType(THREE.UnsignedByteType)
-    loader.setPath('/pisaHDR/')
+
+  var urls = [0, 1, 2, 3, 4, 5].map(n => `./3072_${n}.jpg`);
+
+  const [cubeMap] = useLoader(THREE.CubeTextureLoader, [
+    urls
+  ], loader => {
+    loader.setPath('/sanders/')
   })
   useEffect(() => {
     const gen = new THREE.PMREMGenerator(gl)
